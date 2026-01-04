@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shoreline Debris Density Prediction</title>
+  <style>
+    body {
+      background: #e6f4ff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #005c99;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background: #007acc;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #003366;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Debris Density Predictor</h2>
+    <form action="/predict" method="post">
+      <label>Total Debris</label>
+      <input type="number" step="0.1" name="total_debris" required>
+
+      <label>Estimated Area (m²)</label>
+      <input type="number" step="0.1" name="estimated_area" required>
+
+      <label>Year</label>
+      <input type="number" name="year" required>
+
+      <label>Month</label>
+      <input type="number" name="month" min="1" max="12" required>
+
+      <label>Storm Category</label>
+      <select name="storm_category" required>
+        <option value="0">None</option>
+        <option value="1">Mild</option>
+        <option value="2">Rain</option>
+        <option value="3">Storm</option>
+        <option value="4">Unknown</option>
+        <option value="5">Other</option>
+      </select>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+      <div class="result">
+        🌊 Predicted Debris Density: <strong>{{ prediction }} items/m²</strong><br><br>
+        ⚠️ Risk Level: <span style="color:{{ color }}; font-weight:bold;">{{ risk }}</span>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
